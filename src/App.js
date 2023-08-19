@@ -20,8 +20,9 @@ import ProtectedRoute from "./features/users/protected-route";
 
 import usersReducer from "./features/users/services/users-reducer";
 import channelsReducer from "./features/channels/services/channels-reducer";
+import reviewsReducer from "./features/reviews/services/reviews-reducer";
 const store = configureStore({
-  reducer: { user: usersReducer, channels: channelsReducer}
+  reducer: { user: usersReducer, channels: channelsReducer, reviews: reviewsReducer}
 });
 
 function App() {

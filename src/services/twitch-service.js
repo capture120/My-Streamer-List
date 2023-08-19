@@ -27,6 +27,11 @@ export const findUser = async (twitch_id) => {
     return response.data;
 }
 
+export const findFollowerCount = async (twitch_id) => {
+    const response = await twitch.get(`users/follows?to_id=${twitch_id}&first=1`);
+    return response.data.total;
+}
+
 // export const findStreamsByType = async (type = "", limit = 40) => {
 //     const response = await twitch.get(`streams?type=${type}&first=${limit}`);
 //     return response.data;
@@ -36,42 +41,6 @@ export const findUser = async (twitch_id) => {
 //     const response = await twitch.get(`search/categories?query=${name}&first=100`);
 //     return response.data.data;
 // }
-
-// export const findStreamsByGame = async (name) => {
-//     const response = await twitch.get(`streams?game=${name}&first=40`);
-//     return response.data.streams;
-// };
-
-// export const findStreams = async (id, sort) => {
-//     const response = await twitch.get(
-//         `channels/${id}/videos?sort=${sort}&limit=10`
-//     );
-//     return response.data.videos;
-// };
-
-// export const findStreamInfo = async id => {
-//     const response = await twitch.get(`streams/${id}`);
-//     return response.data.stream;
-// };
-
-// export const findClips = async (query, value) => {
-//     const response = await twitch.get(`${query}&period=${value}&limit=5`);
-//     return response.data.clips;
-// };
-
-// export const getSearchOptions = async (type, value) => {
-//     const response = await twitch.get(
-//         `search/${type}?query=${value}&live=true`
-//     );
-//     return response.data;
-// };
-
-// export const findStreamsByGameAndViews = async name => {
-//     const response = await twitch.get(
-//         `videos/top?game=${name}&period=month&limit=12`
-//     );
-//     return response.data.vods;
-// };
 
 // export const findGames = async (limit = 60) => {
 //     const response = await twitch.get(`games/top?limit=${limit}`);

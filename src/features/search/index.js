@@ -47,12 +47,11 @@ function Search() {
                     </div>
 
                     <input class="peer h-full w-full outline-none text-sm text-gray-700 pr-2" type="text" placeholder="Search channels" value={query}
-                        onChange={(e) => { setQuery(e.target.value); }} />
+                        onChange={(e) => { setQuery(e.target.value); }} onKeyDown={(e) => {e.key === "Enter" && search(query)}}/>
 
                     <button
                         onClick={() => {
                             navigate(`/search/${query}`);
-                            // search(); 
                         }}
                         className="btn btn-primary float-end"
                     >
