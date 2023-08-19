@@ -23,7 +23,7 @@ function Nav() {
 
                 </div>
                 <div className="ml-2">
-                    <span className={top_right_nav}>Signed-in as: {currentUser ? currentUser.username : ""}</span>
+                    <span className={top_right_nav}> {currentUser ? ("Signed-in as: " + currentUser.username) : ""}</span>
                     <span className="flex-auto w-10">
                         <Link to="/search">
                             <TopRightButton>
