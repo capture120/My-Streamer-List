@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { createReviewThunk, findAllReviewsForChannel } from "../reviews/services/reviews-thunk";
+import { findAllReviewsForChannel, findReviewByUserIdAndTwitchIdThunk } from "../reviews/services/reviews-thunk";
 
 import * as twitchService from "../../services/twitch-service";
 import { addCommasToNums } from "../../utils/addCommasToNums";
@@ -35,20 +35,16 @@ function Channel() {
         const channelInfo = channel.data[0];
         channelInfo.followersCount = followersCount;
 
-        await dispatch(findAllReviewsForChannel(twitch_id));
+        const allReviews = await dispatch(findAllReviewsForChannel(twitch_id));
         setChannelDetails(channelInfo);
     }
 
     // if there is a current user, find if they made a review for this channel
-    const findCurrentUserReview = () => {
+    const findCurrentUserReview = async () => {
         if (currentUser) {
-            const userReviewIndex = reviews.findIndex((review) => {
-                return review.user_id === currentUser._id;
-            });
-
-            if (userReviewIndex !== -1) {
-                const userReview = reviews.splice(userReviewIndex, 1)[0];
-                setCurrentUsersReview(userReview);
+            const userReview = await dispatch(findReviewByUserIdAndTwitchIdThunk({ user_id: currentUser._id, twitch_id: twitch_id }))
+            if (userReview.payload) {
+                setCurrentUsersReview(userReview.payload);
             }
         }
     }

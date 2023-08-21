@@ -20,7 +20,9 @@ export const findAllReviewsForChannel = async (twitch_id) => {
     return response.data;
 }
 
-export const findReviewByUserIdAndTwitchId = async (twitch_id, user_id) => {
+export const findReviewByUserIdAndTwitchId = async (userAndTwitchInfo) => {
+    // console.log("AT SERVICE: " + JSON.stringify(userAndTwitchInfo));
+    const { twitch_id, user_id } = userAndTwitchInfo;
     const response = await api.get(`/channels/${twitch_id}/reviews/${user_id}`);
     return response.data;
 }

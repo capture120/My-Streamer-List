@@ -1,12 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createReviewThunk, findReviewByUserIdAndTwitchIdThunk } from "../reviews/services/reviews-thunk";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation} from "react-router";
+import { useParams, useNavigate } from "react-router";
 
 const CreateReview = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
 
     // URL params
     const { twitch_id } = useParams();
@@ -18,12 +17,15 @@ const CreateReview = () => {
     const [review_content, setReview] = useState("");
     const [isRecommended, setIsRecommended] = useState("");
 
+    // determines if a review already exists for the current user and channel
     const checkIfUserReviewed = async () => {
         // this is a protected route so there must be a user
-        // const review = await dispatch(findReviewByUserIdAndTwitchIdThunk(currentUser._id, twitch_id));
-        // if (review) {
-        //     navigate(`/channels/details/${twitch_id}/reviews/${review._id}/edit`)
-        // }
+        // !!! Despite "await" the store is not updated in time, will be updated in time at edit-review !!!
+        const response = await dispatch(findReviewByUserIdAndTwitchIdThunk({ user_id: currentUser._id, twitch_id: twitch_id }));
+        const existing_review = response.payload;
+        if (existing_review) {
+            navigate(`/channels/details/${twitch_id}/reviews/${existing_review._id}/edit`)
+        }
 
     }
 
@@ -34,7 +36,7 @@ const CreateReview = () => {
             return;
         }
 
-        const newReview = await dispatch(createReviewThunk({
+        await dispatch(createReviewThunk({
             twitch_id: twitch_id,
             review_content: review_content,
             isRecommended: isRecommended,

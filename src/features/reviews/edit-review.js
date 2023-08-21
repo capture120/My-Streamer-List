@@ -11,7 +11,7 @@ const EditReview = () => {
 
     return (
         <div>
-
+            <h1 className="text-2xl font-bold">Edit Review</h1>
         </div>
     )
 };

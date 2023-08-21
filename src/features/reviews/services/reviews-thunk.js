@@ -16,8 +16,8 @@ export const findAllReviewsForChannel = createAsyncThunk(
 )
 
 export const findReviewByUserIdAndTwitchIdThunk = createAsyncThunk(
-    "reviews/findReviewByUserIdAndTwitchId", async (twitch_id, user_id) => {
-        const review = await reviewsService.findReviewByUserIdAndTwitchId(twitch_id, user_id);
+    "reviews/findReviewByUserIdAndTwitchId", async (userAndTwitchInfo) => {
+        const review = await reviewsService.findReviewByUserIdAndTwitchId(userAndTwitchInfo);
         return review;
     }
 )

@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router";
 
 import { logoutThunk } from "../features/users/services/users-thunks";
+import { useEffect } from "react";
+import { savePreviousPath } from "../features/users/login/next-path-reducer";
 
 
 function Nav() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     
     const { currentUser } = useSelector((state) => state.user);
     const top_right_nav = "xl:justify-self-end text-[8px] sm:text-[10px] md:text-[12px] text-neutral-300 dark:text-neutral-300 px-2 md:px-4"
@@ -15,6 +18,10 @@ function Nav() {
     function TopRightButton({ children }) {
         return <button className="bg-blue-500 hover:bg-blue-700 text-white text-[8px] sm:text-md md:text-lg font-bold mx-1 py-2 px-1 sm:mx-3 sm:py-2 sm:px-4 rounded focus:outline-none focus:shadow-outline">{children}</button>
     }
+
+    useEffect(() => {
+        dispatch(savePreviousPath(location.pathname));
+    }, []);
 
     return (
         <nav className="relative flex w-full flex-wrap items-center justify-between bg-black py-2 lg:py-4">

@@ -8,7 +8,7 @@ function Login() {
     const dispatch = useDispatch();
 
     const { currentUser } = useSelector((state) => { return state.user });
-    const { nextPath } = useSelector((state) => { return state.paths });
+    const { nextPath, previousPath } = useSelector((state) => { return state.paths });
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -22,7 +22,15 @@ function Login() {
 
         await dispatch(loginThunk({ username, password }));
 
-        navigate(nextPath);
+        console.log(`Previous Path: ${previousPath} | Next Path: ${nextPath}`)
+        // if the user simply presses login, go back to the previous page
+        // nextPath will only be "/login" if they press the login button while at a protected route
+        // otherwise nextPath will be null
+        if (nextPath === "/login" || nextPath === null) {
+            navigate(previousPath);
+        } else {
+            navigate(nextPath);
+        }
     }
 
     useEffect(() => {
