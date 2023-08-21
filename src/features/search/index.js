@@ -61,10 +61,12 @@ function Search() {
             </div>
 
             <div className="lg:grid lg:grid-flow-col lg:grid-rows-3">
+                {/* Display array of channels */}
                 {channels.map((channel) => {
                     return (
                         <div className="flex flex-col items-center justify-center border border-gray-800 min-w-fit max-w-xl p-4">
-                            <Link to={`/channels/${channel.id}`}>
+                            {/* Link channels to their respective URL */}
+                            <Link to={`/channels/details/${channel.id}`}>
                                 <h5 className="text-3xl font-bold mb-2">{channel.display_name}</h5>
                                 <img src={channel.thumbnail_url} />
                             </Link>

@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { updateChannelThunk, createChannelThunk, findChannelByIdThunk } from "./services/channels-thunks";
-import { createReviewThunk } from "../reviews/services/reviews-thunk";
+import { createReviewThunk, findAllReviewsForChannel } from "../reviews/services/reviews-thunk";
 
 import * as twitchService from "../../services/twitch-service";
 import { addCommasToNums } from "../../utils/addCommasToNums";
-import { resizeTwitchProfileImage } from "../../utils/resizeTwitchProfileImage";
+
+import Review from "../reviews";
+import ReviewsList from "../reviews/reviews-list";
 
 function Channel() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // URL params
     const { twitch_id } = useParams();
 
-    const { currentChannel } = useSelector((state) => { return state.channels });
+    // redux state
+    const { reviews } = useSelector((state) => { return state.reviews });
     const { currentUser } = useSelector((state) => { return state.user });
 
+    // local state
     const [channelDetails, setChannelDetails] = useState({});
-    const [review_content, setReview] = useState("");
-    const [isRecommended, setIsRecommended] = useState("");
+    const [currentUsersReview, setCurrentUsersReview] = useState(null);
 
-    const dispatch = useDispatch();
-    const handleCreateReviewButton = () => {
-        if (isRecommended === "" || review_content === "") {
-            alert("Please fill out all fields");
-            return;
-        }
 
-        dispatch(createReviewThunk({
-            twitch_id: twitch_id,
-            review_content: review_content,
-            isRecommended: isRecommended,
-        }));
-        setReview("");
-        setIsRecommended("");
-    }
 
+    // Queries twitch api to find twitch statistics for this channel
+    // Queries backend to find reviews for the channel
     const findChannelDetails = async () => {
         const channel = await twitchService.findUser(twitch_id);
         const followersCount = await twitchService.findFollowerCount(twitch_id);
@@ -41,11 +35,28 @@ function Channel() {
         const channelInfo = channel.data[0];
         channelInfo.followersCount = followersCount;
 
+        await dispatch(findAllReviewsForChannel(twitch_id));
         setChannelDetails(channelInfo);
     }
 
+    // if there is a current user, find if they made a review for this channel
+    const findCurrentUserReview = () => {
+        if (currentUser) {
+            const userReviewIndex = reviews.findIndex((review) => {
+                return review.user_id === currentUser._id;
+            });
+
+            if (userReviewIndex !== -1) {
+                const userReview = reviews.splice(userReviewIndex, 1)[0];
+                setCurrentUsersReview(userReview);
+            }
+        }
+    }
+
+    // find channel details once on page load
     useEffect(() => {
         findChannelDetails();
+        findCurrentUserReview();
     }, []);
 
     const displayChannelDetails = () => {
@@ -68,23 +79,16 @@ function Channel() {
                     <h3 className="text-xl font-bold">Followers</h3>
                     <p className="text-lg">{addCommasToNums(channelDetails.followersCount)}</p>
                 </div>
-                {currentUser && <div>
-                    <textarea className="border border-gray-800"
-                        onChange={(e) => { setReview(e.target.value) }} value={review_content}></textarea>
-                    <div>
-                        <button className="border border-gray-800" onClick={handleCreateReviewButton}>Create Review</button>
-                    </div>
-                    <div class="inline-block relative w-64">
-                        <select value={isRecommended} onChange={(e) => setIsRecommended(e.target.value)} class="block appearance-none w-full bg-white border border-gray-400px-4 py-2 pr-8 rounded shadow focus:outline-none ">
-                            <option value={""}></option>
-                            <option value={true}>Recommended</option>
-                            <option value={false}>Not-Recommended</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                        </div>
-                    </div>
-                </div>}
+                {/* If currentUser has not made a review for this channel, show create button, otherwise edit button */}
+                {!currentUsersReview ?
+                    <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/create`) }} className="border border-gray-800">Create Review</button>
+                    : <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/${currentUsersReview.creator}/edit`) }} className="border border-gray-800">Edit Review</button>}
+
+                {/* Display reviews  */}
+                <h3 className="text-xl font-bold">Reviews</h3>
+                <div className="w-1/2 border border-gray-800">
+                    {reviews && <ReviewsList reviewsList={reviews} />}
+                </div>
             </div>
 
         );
@@ -92,6 +96,7 @@ function Channel() {
 
     return (
         <div>
+            {/* if channel details exist display */}
             {channelDetails && displayChannelDetails()}
         </div>
     );

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { loginThunk } from "../services/users-thunks";
 
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const { currentUser } = useSelector((state) => { return state.user });
+    const { nextPath } = useSelector((state) => { return state.paths });
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -17,13 +20,17 @@ function Login() {
         const username = formObj.username;
         const password = formObj.password;
 
-        try {
-            await dispatch(loginThunk({ username, password }));
-            navigate("/profile");
-        } catch (e) {
-            alert(e);
-        }
+        await dispatch(loginThunk({ username, password }));
+
+        navigate(nextPath);
     }
+
+    useEffect(() => {
+        // if needed create reducer in paths called previousPath and save this "/login" as the previous path
+        if (currentUser) {
+            navigate("/");
+        }
+    }, []);
 
     return (
         <div className="border-double flex justify-center items-center">

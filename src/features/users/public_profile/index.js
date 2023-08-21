@@ -12,7 +12,7 @@ function PublicProfile() {
     const { currentUser, publicProfile } = useSelector((state) => { return state.user });
 
     const checkIfCurrentUser = async (uid) => {
-        if (currentUser._id === uid) {
+        if (currentUser && currentUser._id === uid) {
             navigate("/profile")
         } else {
             await dispatch(findUserByIdThunk(uid));
@@ -25,8 +25,8 @@ function PublicProfile() {
 
     return (
         <div>
-            <h1>Public Profile Screen</h1>
-            {JSON.stringify(publicProfile, null, 2)}
+            {publicProfile && <h1>{publicProfile.username}'s Profile</h1>}
+            {/* {JSON.stringify(publicProfile, null, 2)} */}
         </div>
     );
 }

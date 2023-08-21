@@ -1,23 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createReviewThunk } from "./reviews-thunk";
+import { createReviewThunk, findAllReviewsForChannel, findReviewByUserIdAndTwitchIdThunk } from "./reviews-thunk";
 
 const reviewsSlice = createSlice({
     name: "reviews",
     initialState: {
-        currentReview: null,
+        currentChannelReviewByUser: null,
         reviews: []
     },
     reducers: {},
     extraReducers: {
-
-        // [findChannelByIdThunk.fulfilled]: (state, { payload }) => {
-        //     state.currentChannel = payload;
-        // },
-
         [createReviewThunk.fulfilled]: (state, { payload }) => {
             state.reviews.push(payload);
-            state.currentReview = payload;
         },
+        [findAllReviewsForChannel.fulfilled]: (state, { payload }) => {
+            state.reviews = payload;
+        },
+        [findReviewByUserIdAndTwitchIdThunk.fulfilled]: (state, { payload }) => {
+            state.currentChannelReviewByUser = payload;
+        }
+
     },
 });
 

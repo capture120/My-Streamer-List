@@ -14,6 +14,8 @@ import Register from "./features/users/register";
 import Search from "./features/search";
 import PublicProfile from "./features/users/public_profile";
 import Channel from "./features/channels";
+import CreateReview from "./features/reviews/create-review";
+import EditReview from "./features/reviews/edit-review";
 
 import AuthContext from "./features/users/auth-context";
 import ProtectedRoute from "./features/users/protected-route";
@@ -21,8 +23,9 @@ import ProtectedRoute from "./features/users/protected-route";
 import usersReducer from "./features/users/services/users-reducer";
 import channelsReducer from "./features/channels/services/channels-reducer";
 import reviewsReducer from "./features/reviews/services/reviews-reducer";
+import pathsReducer from "./features/users/login/next-path-reducer";
 const store = configureStore({
-  reducer: { user: usersReducer, channels: channelsReducer, reviews: reviewsReducer}
+  reducer: { user: usersReducer, channels: channelsReducer, reviews: reviewsReducer, paths: pathsReducer}
 });
 
 function App() {
@@ -42,7 +45,9 @@ function App() {
               <Route path="/search/:search_name" element={<Search />} />
 
               <Route path="/profile/:uid" element={<PublicProfile />} />
-              <Route path="/channels/:twitch_id" element={<Channel />} />
+              <Route path="/channels/details/:twitch_id" element={<Channel />} />
+              <Route path="/channels/details/:twitch_id/reviews/create" element={<ProtectedRoute> <CreateReview /> </ProtectedRoute>} />
+              <Route path="/channels/details/:twitch_id/reviews/:review_id/edit" element={<ProtectedRoute> <EditReview/> </ProtectedRoute>} />
             </Routes>
           </div>
         </AuthContext>
