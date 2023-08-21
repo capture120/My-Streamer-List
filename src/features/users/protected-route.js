@@ -34,6 +34,8 @@ function ProtectedRoute({ children }) {
     return (
         // show/hide body content while fetching profile
         <div className={`${loading ? "invisible" : ""}`}>
+            {/* !!! IMPORTANT !!! If current user does not exist do not allow
+             components to load (could cause null errors) */}
             {currentUser ? children : <div></div>}
         </div>
     );

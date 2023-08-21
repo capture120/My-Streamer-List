@@ -26,7 +26,6 @@ const CreateReview = () => {
         if (existing_review) {
             navigate(`/channels/details/${twitch_id}/reviews/${existing_review._id}/edit`)
         }
-
     }
 
     // Validate user input and create review
@@ -48,14 +47,12 @@ const CreateReview = () => {
     }
 
     useEffect(() => {
-        if (currentUser) {
-            checkIfUserReviewed();
-        }
+        checkIfUserReviewed();
     }, [])
     return (
         <div>
             <h1 className="text-2xl font-bold">Create Review</h1>
-            <textarea className="border border-gray-800"
+            <textarea className="border border-gray-800" placeholder="Write your review here..."
                 onChange={(e) => { setReview(e.target.value) }} value={review_content}></textarea>
             <div class="block relative w-64">
                 <select value={isRecommended} onChange={(e) => setIsRecommended(e.target.value)} class="block appearance-none w-full bg-white border border-gray-400px-4 py-2 pr-8 rounded shadow focus:outline-none ">

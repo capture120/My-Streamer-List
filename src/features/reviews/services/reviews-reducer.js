@@ -4,7 +4,6 @@ import { createReviewThunk, findAllReviewsForChannel, findReviewByUserIdAndTwitc
 const reviewsSlice = createSlice({
     name: "reviews",
     initialState: {
-        // currentChannelReviewByUser: null,
         reviews: []
     },
     reducers: {},
@@ -15,11 +14,6 @@ const reviewsSlice = createSlice({
         [findAllReviewsForChannel.fulfilled]: (state, { payload }) => {
             state.reviews = payload;
         },
-        // !!! Note !!! currentChannelReviewByUser will be reset to null on refresh
-        // a potential issue is if user logs out this state will still be stored
-        // [findReviewByUserIdAndTwitchIdThunk.fulfilled]: (state, { payload }) => {
-        //     state.currentChannelReviewByUser = payload;
-        // }
 
     },
 });

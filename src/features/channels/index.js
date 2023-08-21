@@ -78,7 +78,7 @@ function Channel() {
                 {/* If currentUser has not made a review for this channel, show create button, otherwise edit button */}
                 {!currentUsersReview ?
                     <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/create`) }} className="border border-gray-800">Create Review</button>
-                    : <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/${currentUsersReview.creator}/edit`) }} className="border border-gray-800">Edit Review</button>}
+                    : <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/${currentUsersReview._id}/edit`) }} className="border border-gray-800">Edit Review</button>}
 
                 {/* Display reviews  */}
                 <h3 className="text-xl font-bold">Reviews</h3>

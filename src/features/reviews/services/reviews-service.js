@@ -32,19 +32,12 @@ export const findReviewById = async (reviewId) => {
     return response.data;
 }
 
-
-
-
-
-
-
-
-
-/* currently not in use
 export const updateReview = async (review) => {
     const response = await api.put(`/reviews/${review._id}`, review);
     return response.data;
 };
 
 
-*/
+
+
+

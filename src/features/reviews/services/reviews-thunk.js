@@ -29,6 +29,12 @@ export const findReviewByIdThunk = createAsyncThunk(
     }
 )
 
+export const updateReviewThunk = createAsyncThunk(
+    "reviews/updateReview", async (review) => {
+        const updatedReview = await reviewsService.updateReview(review);
+        return updatedReview;
+    }
+)
 
 
 
@@ -39,22 +45,3 @@ export const findReviewByIdThunk = createAsyncThunk(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* currently not in use
-*/
