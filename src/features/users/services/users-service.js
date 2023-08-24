@@ -13,6 +13,12 @@ const api = axios.create({
     baseURL: USERS_URL,
 });
 
+// finds all users
+export const findAllUsers = async () => {
+    const response = await api.get("");
+    return response.data;
+}
+
 // login service function
 export const login = async ({ username, password }) => {
     const response = await api.post(`/login`, { username, password });
@@ -34,6 +40,13 @@ export const profile = async () => {
 
 export const updateUser = async (user) => {
     const response = await api.put(`/${user._id}`, user);
+    // console.log(`AT UPDATE USER: ${JSON.stringify(response)}`);
+    return response.data;
+};
+
+export const updateCurrentUser = async (user) => {
+    const response = await api.put(`/current_user/${user._id}`, user);
+    // console.log(`AT SERVICE: ${JSON.stringify(response)}`);
     return response.data;
 };
 

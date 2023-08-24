@@ -35,17 +35,14 @@ function Home() {
 
   return (
     <div>
-      <h1>Home</h1>
-      <HiddenComponent>
-        <div>
-          Display if logged in!
-        </div>
-      </HiddenComponent>
-      {recentUserReview &&
-        <div>
-          <h2 className="text-center text-2xl font-extrabold">Your Recent Review</h2>
-          <Review review={recentUserReview} />
-        </div>}
+      <div className="m-12">
+        {recentUserReview &&
+          <div>
+            <h2 className="text-center text-2xl font-extrabold">Your Recent Review</h2>
+            <Review review={recentUserReview} />
+          </div>}
+        
+      </div>
       <div>
         <h2 className="text-center text-2xl font-extrabold">Recent Reviews</h2>
         {homeReviews && <ReviewsList reviewsList={homeReviews} />}

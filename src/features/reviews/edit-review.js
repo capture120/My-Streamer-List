@@ -35,7 +35,6 @@ function EditReview() {
         if (payload && payload.creator._id === currentUser._id && payload.twitch_id === twitch_id) {
             setReview(payload);
         } else {
-            console.log("Review not found")
             navigate(`/channels/${twitch_id}`);
         }
     };

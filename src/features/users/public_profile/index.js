@@ -1,18 +1,19 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { findUserByIdThunk } from "../services/users-thunks";
 import { findAllReviewsForUserThunk } from "../../reviews/services/reviews-thunk";
-// profileThunk
 
 import ReviewsList from "../../reviews/reviews-list";
+import TwitchChannelDetails from "../../channels/twitch-channel-details";
 
 
 function PublicProfile({ target_user_id }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
     // find userid from target parameter or argument of this component
     const { user_id } = useParams();
@@ -26,55 +27,69 @@ function PublicProfile({ target_user_id }) {
         await dispatch(findAllReviewsForUserThunk(uid));
     }
 
-    const profileValidation = async (uid) => {
-        // if user is logged in and viewing their own profile, redirect to profile screen
-        const currentProfile = await dispatch(findUserByIdThunk(uid));
-        if (currentUser && currentUser._id === uid) {
+    // if a logged in user is viewing their own profile, navigate to their personal profile screen
+    const navigateToPersonalProfile = async () => {
+        // if user is logged in and viewing their own profile 
+        // given user not at their personal profile screen, redirect to profile screen
+        if (location.pathname !== "/profile" && currentUser && currentUser._id === uid) {
             navigate("/profile")
             return;
         }
 
+    }
+
+    // determines if the profile is valid
+    const isValidProfile = async (uid) => {
         // if currentProfile is null, redirect to home screen
+        const currentProfile = await dispatch(findUserByIdThunk(uid));
         if (!currentProfile.payload) {
-            // navigate("/");
-            return;
+            navigate("/");
+            return false;
         }
 
         await findReviewsForProfile(uid);
+        return true;
     }
 
     useEffect(() => {
-        profileValidation(uid);
+        if (isValidProfile(uid)) {
+            navigateToPersonalProfile();
+        }
     }, []);
 
-    return (
-        <div>
+    if (publicProfile) {
+        return (
             <div>
-                <h1>{publicProfile && publicProfile.username}'s Profile</h1>
-                {/* Display reviews  */}
                 <div>
-                    <h3 className="text-xl font-bold">Favorite Channel</h3>
-                    <div className="w-1/2 border border-gray-800">
-                        {publicProfile ?
-                            <Link to={`/channels/${publicProfile.favoriteChannel}`} >
-                                {publicProfile.favoriteChannel}
-                            </Link>
-                            :
-                            <div className="text-center">
-                                This user has no favorite channel
-                            </div>}
+                    <h1 className="text-2xl font-bold">{publicProfile.username}'s Profile</h1>
+    
+                    {/* Display Favorite Channel */}
+                    <div>
+                        <h3 className="text-xl font-semibold">Favorite Channel</h3>
+                        <div className="w-1/2 border border-gray-800">
+                            {publicProfile.favoriteChannel ?
+                                <Link to={`/channels/${publicProfile.favoriteChannel}`} >
+                                    <TwitchChannelDetails twitch_id={publicProfile.favoriteChannel} />
+                                </Link>
+                                :
+                                <div className="text-center">
+                                    This user has no favorite channel
+                                </div>}
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <h3 className="text-xl font-bold">Reviews</h3>
-                    <div className="w-1/2 border border-gray-800">
-                        {(reviews.length > 0) ? <ReviewsList reviewsList={reviews} />
-                            : <div className="text-center">This user has made no reviews</div>}
+    
+                    {/* Display reviews  */}
+                    <div>
+                        <h3 className="text-xl font-semibold">Reviews</h3>
+                        <div className="w-1/2 border border-gray-800">
+                            {(reviews.length > 0) ? <ReviewsList reviewsList={reviews} />
+                                : <div className="text-center">This user has made no reviews</div>}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 
 }
 

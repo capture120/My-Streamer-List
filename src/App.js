@@ -16,7 +16,8 @@ import PublicProfile from "./features/users/public_profile";
 import Channel from "./features/channels";
 import CreateReview from "./features/reviews/create-review";
 import EditReview from "./features/reviews/edit-review";
-import ReviewProfile from "./features/reviews/review-profile";
+import ReviewScreen from "./features/reviews/review-screen";
+import AdminDashboard from "./features/users/admin-dashboard";
 
 import AuthContext from "./features/users/auth-context";
 import ProtectedRoute from "./features/users/protected-route";
@@ -45,12 +46,13 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/search/" element={<Search />} />
               <Route path="/search/:search_name" element={<Search />} />
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
 
               <Route path="/profile/:user_id" element={<PublicProfile />} />
               <Route path="/channels/:twitch_id" element={<Channel />} />
               <Route path="/channels/:twitch_id/reviews/create" element={<ProtectedRoute> <CreateReview /> </ProtectedRoute>} />
               <Route path="/channels/:twitch_id/reviews/:review_id/edit" element={<ProtectedRoute> <EditReview/> </ProtectedRoute>} />
-              <Route path="/channels/:twitch_id/reviews/:review_id" element={<ReviewProfile/>} />
+              <Route path="/channels/:twitch_id/reviews/:review_id" element={<ReviewScreen/>} />
             </Routes>
           </div>
         </AuthContext>

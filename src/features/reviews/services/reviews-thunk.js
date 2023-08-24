@@ -57,7 +57,12 @@ export const updateReviewThunk = createAsyncThunk(
     }
 )
 
-
+export const deleteReviewThunk = createAsyncThunk(
+    "reviews/deleteReview", async (review_id) => {
+        const deletedReview = await reviewsService.deleteReview(review_id);
+        return deletedReview;
+    }
+)
 
 
 

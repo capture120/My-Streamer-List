@@ -4,9 +4,9 @@ import { useNavigate, useLocation } from "react-router";
 
 import { savePreviousPath } from "../users/login/next-path-reducer";
 import { findReviewByUserIdAndTwitchIdThunk } from "../reviews/services/reviews-thunk";
-import { updateUserThunk } from "../users/services/users-thunks";
+import { updateCurrentUserThunk } from "../users/services/users-thunks";
 
-const FavoriteChannel = ({ twitch_id }) => {
+const FavoriteChannelButton = ({ twitch_id }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
@@ -29,7 +29,7 @@ const FavoriteChannel = ({ twitch_id }) => {
             navigate("/login");
             return;
         }
-        await dispatch(updateUserThunk({...currentUser, favoriteChannel: twitch_id }));
+        await dispatch(updateCurrentUserThunk({...currentUser, favoriteChannel: twitch_id }));
         setCurrentUserFavorite(twitch_id);
     }
 
@@ -40,7 +40,7 @@ const FavoriteChannel = ({ twitch_id }) => {
             navigate("/login");
             return;
         }
-        await dispatch(updateUserThunk({...currentUser, favoriteChannel: null }));
+        await dispatch(updateCurrentUserThunk({...currentUser, favoriteChannel: null }));
         setCurrentUserFavorite(null);
     }
 
@@ -56,4 +56,4 @@ const FavoriteChannel = ({ twitch_id }) => {
     )
 }
 
-export default FavoriteChannel;
+export default FavoriteChannelButton;

@@ -1,6 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as usersService from "./users-service";
 
+export const findAllUsersThunk = createAsyncThunk(
+    "user/findAllUsers", async () => {
+        const users = await usersService.findAllUsers();
+        return users;
+    }
+)
+
 export const findUserByIdThunk = createAsyncThunk(
     "user/findUserById", async (uid) => {
         const user = await usersService.findUserById(uid);
@@ -18,7 +25,6 @@ export const loginThunk = createAsyncThunk(
 export const profileThunk = createAsyncThunk(
     "user/profile", async () => {
         const response = await usersService.profile();
-        // console.log(`RESPONSE Thunk: ${JSON.stringify(response)}`);
         return response;
     }
 );
@@ -31,9 +37,17 @@ export const logoutThunk = createAsyncThunk(
 
 export const updateUserThunk = createAsyncThunk(
     "user/updateUser", async (user) => {
-        await usersService.updateUser(user);
-        // console.log(`updateUserThunk: ${JSON.stringify(user)}`);
-        return user;
+        // console.log(`AT updateUser: ${JSON.stringify(user)}`);
+        const newUser = await usersService.updateUser(user);
+        return newUser;
+    }
+);
+
+export const updateCurrentUserThunk = createAsyncThunk(
+    "user/updateCurrentUser", async (user) => {
+        const newUser = await usersService.updateCurrentUser(user);
+        // console.log(`AT updateCurrentUser: ${JSON.stringify(newUser)}`);
+        return newUser;
     }
 );
 
