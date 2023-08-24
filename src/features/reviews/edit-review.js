@@ -26,16 +26,17 @@ function EditReview() {
 
         setReview({});
         await dispatch(updateReviewThunk(review));
-        navigate(`/channels/details/${twitch_id}`);
+        navigate(`/channels/${twitch_id}`);
     };
 
     // Check that review exists and belongs to current user, if so load review
     const loadReview = async () => {
         const { payload } = await dispatch(findReviewByIdThunk(review_id));
-        if (payload && payload.creator == currentUser._id && payload.twitch_id == twitch_id) {
+        if (payload && payload.creator._id === currentUser._id && payload.twitch_id === twitch_id) {
             setReview(payload);
         } else {
-            navigate(`/channels/details/${twitch_id}`);
+            console.log("Review not found")
+            navigate(`/channels/${twitch_id}`);
         }
     };
 

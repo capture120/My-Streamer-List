@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { profileThunk } from "./services/users-thunks";
+import Loading from "../../components/loading";
 
 // children is content in the body of this component
 function AuthContext({ children }) {
@@ -22,11 +23,7 @@ function AuthContext({ children }) {
     // if loading show spinner (by default)
     if (loading) {
         return (
-            <div
-                class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status">
-                <span className="invisible">Loading...</span>
-            </div>
+            <Loading />
         );
     } else {
         // show body content when done loading

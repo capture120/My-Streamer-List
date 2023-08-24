@@ -1,34 +1,81 @@
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { findUserByIdThunk, profileThunk } from "../services/users-thunks";
-import { useEffect } from "react";
+import { findUserByIdThunk } from "../services/users-thunks";
+import { findAllReviewsForUserThunk } from "../../reviews/services/reviews-thunk";
+// profileThunk
 
-function PublicProfile() {
+import ReviewsList from "../../reviews/reviews-list";
+
+
+function PublicProfile({ target_user_id }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { uid } = useParams();
-    const { currentUser, publicProfile } = useSelector((state) => { return state.user });
+    // find userid from target parameter or argument of this component
+    const { user_id } = useParams();
+    const uid = user_id || target_user_id;
 
-    const checkIfCurrentUser = async (uid) => {
+    // get user, this profile, and the reviews made by this profile from redux store
+    const { currentUser, publicProfile } = useSelector((state) => { return state.user });
+    const { reviews } = useSelector((state) => { return state.reviews });
+
+    const findReviewsForProfile = async (uid) => {
+        await dispatch(findAllReviewsForUserThunk(uid));
+    }
+
+    const profileValidation = async (uid) => {
+        // if user is logged in and viewing their own profile, redirect to profile screen
+        const currentProfile = await dispatch(findUserByIdThunk(uid));
         if (currentUser && currentUser._id === uid) {
             navigate("/profile")
-        } else {
-            await dispatch(findUserByIdThunk(uid));
+            return;
         }
+
+        // if currentProfile is null, redirect to home screen
+        if (!currentProfile.payload) {
+            // navigate("/");
+            return;
+        }
+
+        await findReviewsForProfile(uid);
     }
 
     useEffect(() => {
-        checkIfCurrentUser(uid);
-    });
+        profileValidation(uid);
+    }, []);
 
     return (
         <div>
-            {publicProfile && <h1>{publicProfile.username}'s Profile</h1>}
-            {/* {JSON.stringify(publicProfile, null, 2)} */}
+            <div>
+                <h1>{publicProfile && publicProfile.username}'s Profile</h1>
+                {/* Display reviews  */}
+                <div>
+                    <h3 className="text-xl font-bold">Favorite Channel</h3>
+                    <div className="w-1/2 border border-gray-800">
+                        {publicProfile ?
+                            <Link to={`/channels/${publicProfile.favoriteChannel}`} >
+                                {publicProfile.favoriteChannel}
+                            </Link>
+                            :
+                            <div className="text-center">
+                                This user has no favorite channel
+                            </div>}
+                    </div>
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold">Reviews</h3>
+                    <div className="w-1/2 border border-gray-800">
+                        {(reviews.length > 0) ? <ReviewsList reviewsList={reviews} />
+                            : <div className="text-center">This user has made no reviews</div>}
+                    </div>
+                </div>
+            </div>
         </div>
     );
+
 }
 
 export default PublicProfile;

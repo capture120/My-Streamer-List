@@ -16,6 +16,7 @@ import PublicProfile from "./features/users/public_profile";
 import Channel from "./features/channels";
 import CreateReview from "./features/reviews/create-review";
 import EditReview from "./features/reviews/edit-review";
+import ReviewProfile from "./features/reviews/review-profile";
 
 import AuthContext from "./features/users/auth-context";
 import ProtectedRoute from "./features/users/protected-route";
@@ -24,6 +25,7 @@ import usersReducer from "./features/users/services/users-reducer";
 import channelsReducer from "./features/channels/services/channels-reducer";
 import reviewsReducer from "./features/reviews/services/reviews-reducer";
 import pathsReducer from "./features/users/login/next-path-reducer";
+import Review from "./features/reviews";
 const store = configureStore({
   reducer: { user: usersReducer, channels: channelsReducer, reviews: reviewsReducer, paths: pathsReducer}
 });
@@ -44,10 +46,11 @@ function App() {
               <Route path="/search/" element={<Search />} />
               <Route path="/search/:search_name" element={<Search />} />
 
-              <Route path="/profile/:uid" element={<PublicProfile />} />
-              <Route path="/channels/details/:twitch_id" element={<Channel />} />
-              <Route path="/channels/details/:twitch_id/reviews/create" element={<ProtectedRoute> <CreateReview /> </ProtectedRoute>} />
-              <Route path="/channels/details/:twitch_id/reviews/:review_id/edit" element={<ProtectedRoute> <EditReview/> </ProtectedRoute>} />
+              <Route path="/profile/:user_id" element={<PublicProfile />} />
+              <Route path="/channels/:twitch_id" element={<Channel />} />
+              <Route path="/channels/:twitch_id/reviews/create" element={<ProtectedRoute> <CreateReview /> </ProtectedRoute>} />
+              <Route path="/channels/:twitch_id/reviews/:review_id/edit" element={<ProtectedRoute> <EditReview/> </ProtectedRoute>} />
+              <Route path="/channels/:twitch_id/reviews/:review_id" element={<ReviewProfile/>} />
             </Routes>
           </div>
         </AuthContext>

@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { profileThunk, logoutThunk, updateUserThunk } from "../services/users-thunks";
 
+import PublicProfile from "../public_profile";
+
 function Profile() {
     const { currentUser } = useSelector((state) => { return state.user });
     const [profile, setProfile] = useState(currentUser);
@@ -14,7 +16,8 @@ function Profile() {
     return (
         <div>
             <h1>Profile Screen</h1>
-            {profile && (
+            <PublicProfile target_user_id={currentUser._id}/>
+            {/* {profile && (
                 <div>
                     <div>
                         <label>Email: </label>
@@ -30,7 +33,7 @@ function Profile() {
             )}
             <button onClick={save}>
                 Save
-            </button>
+            </button> */}
         </div>);
 
 }

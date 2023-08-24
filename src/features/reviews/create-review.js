@@ -24,7 +24,7 @@ const CreateReview = () => {
         const response = await dispatch(findReviewByUserIdAndTwitchIdThunk({ user_id: currentUser._id, twitch_id: twitch_id }));
         const existing_review = response.payload;
         if (existing_review) {
-            navigate(`/channels/details/${twitch_id}/reviews/${existing_review._id}/edit`)
+            navigate(`/channels/${twitch_id}/reviews/${existing_review._id}/edit`)
         }
     }
 
@@ -42,7 +42,7 @@ const CreateReview = () => {
         }));
         setReview("");
         setIsRecommended("");
-        navigate(`/channels/details/${twitch_id}`);
+        navigate(`/channels/${twitch_id}`);
 
     }
 

@@ -20,6 +20,21 @@ export const findAllReviewsForChannel = async (twitch_id) => {
     return response.data;
 }
 
+export const findAllReviewsForUser = async (user_id) => {
+    const response = await api.get(`/reviews/user/${user_id}`);
+    return response.data;
+}
+
+export const findUserMostRecentReview = async (user_id) => {
+    const response = await api.get(`/reviews/user/${user_id}/most-recent`);
+    return response.data;
+}
+
+export const findRecentReviews = async (limit) => {
+    const response = await api.get(`/reviews/recent/${limit}`);
+    return response.data;
+}
+
 export const findReviewByUserIdAndTwitchId = async (userAndTwitchInfo) => {
     // console.log("AT SERVICE: " + JSON.stringify(userAndTwitchInfo));
     const { twitch_id, user_id } = userAndTwitchInfo;
@@ -28,12 +43,12 @@ export const findReviewByUserIdAndTwitchId = async (userAndTwitchInfo) => {
 }
 
 export const findReviewById = async (reviewId) => {
-    const response = await api.get(`/reviews/${reviewId}`);
+    const response = await api.get(`/review/${reviewId}`);
     return response.data;
 }
 
 export const updateReview = async (review) => {
-    const response = await api.put(`/reviews/${review._id}`, review);
+    const response = await api.put(`/review/${review._id}`, review);
     return response.data;
 };
 

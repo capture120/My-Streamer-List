@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { findAllReviewsForChannel, findReviewByUserIdAndTwitchIdThunk } from "../reviews/services/reviews-thunk";
+import { findAllReviewsForChannelThunk, findReviewByUserIdAndTwitchIdThunk } from "../reviews/services/reviews-thunk";
 
 import * as twitchService from "../../services/twitch-service";
 import { addCommasToNums } from "../../utils/addCommasToNums";
 
 import Review from "../reviews";
 import ReviewsList from "../reviews/reviews-list";
+import FavoriteChannel from "./favorite-channel";
 
 function Channel() {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function Channel() {
         const channelInfo = channel.data[0];
         channelInfo.followersCount = followersCount;
 
-        const allReviews = await dispatch(findAllReviewsForChannel(twitch_id));
+        const allReviews = await dispatch(findAllReviewsForChannelThunk(twitch_id));
         setChannelDetails(channelInfo);
     }
 
@@ -58,6 +59,7 @@ function Channel() {
     const displayChannelDetails = () => {
         return (
             <div className="flex flex-col items-center">
+                {/* Channel Details from Twitch */}
                 <img
                     className="w-1/2 h-1/2 md:w-1/3 md:h-1/3 lg:w-1/4 lg:h-1/4 rounded-full"
                     src={channelDetails.profile_image_url}
@@ -75,10 +77,13 @@ function Channel() {
                     <h3 className="text-xl font-bold">Followers</h3>
                     <p className="text-lg">{addCommasToNums(channelDetails.followersCount)}</p>
                 </div>
+                
+                {/* Add as favorite channel */}
+                <FavoriteChannel twitch_id={twitch_id}/>
                 {/* If currentUser has not made a review for this channel, show create button, otherwise edit button */}
                 {!currentUsersReview ?
-                    <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/create`) }} className="border border-gray-800">Create Review</button>
-                    : <button onClick={() => { navigate(`/channels/details/${twitch_id}/reviews/${currentUsersReview._id}/edit`) }} className="border border-gray-800">Edit Review</button>}
+                    <button onClick={() => { navigate(`/channels/${twitch_id}/reviews/create`) }} className="border border-gray-800">Create Review</button>
+                    : <button onClick={() => { navigate(`/channels/${twitch_id}/reviews/${currentUsersReview._id}/edit`) }} className="border border-gray-800">Edit Review</button>}
 
                 {/* Display reviews  */}
                 <h3 className="text-xl font-bold">Reviews</h3>
