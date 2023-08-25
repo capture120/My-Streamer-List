@@ -18,8 +18,8 @@ function Profile() {
     };
 
     return (
-        <div class="flex flex-col items-center mt-4 sm:mr-4 sm:flex-row sm:items-start">
-            <div class="w-4/6">
+        <div class="flex flex-col items-center mt-4 md:flex-row md:items-start">
+            <div class="sm:ml-4 sm:mr-4">
                 {(profile) &&
                     <div class="max-w-sm rounded overflow-hidden shadow-lg m-4">
                         <div className=" ml-4">
@@ -68,7 +68,9 @@ function Profile() {
                     </div>
                 }
             </div>
-            <PublicProfile target_user_id={currentUser._id} />
+            <div className="w-4/6">
+                <PublicProfile target_user_id={currentUser._id} />
+            </div>
         </div>
     );
 
