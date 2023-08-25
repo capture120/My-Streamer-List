@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router";
 import { findAllReviewsForChannelThunk, findReviewByUserIdAndTwitchIdThunk } from "../reviews/services/reviews-thunk";
 import * as twitchService from "../../services/twitch-service";
 
-import Review from "../reviews";
 import ReviewsList from "../reviews/reviews-list";
 import FavoriteChannelButton from "./favorite-channel-button";
 import TwitchChannelDetails from "./twitch-channel-details";
@@ -63,11 +62,11 @@ function Channel() {
                     <FavoriteChannelButton twitch_id={twitch_id} />
                     {/* If currentUser has made a review for this channel, show edit button, otherwise show create button */}
                     {currentUsersReview ?
-                        <button onClick={() => { navigate(`/channels/${twitch_id}/reviews/${currentUsersReview._id}/edit`) }} className="border border-gray-800">Edit Review</button>
-                        : <button onClick={() => { navigate(`/channels/${twitch_id}/reviews/create`) }} className="border border-gray-800">Create Review</button>}
+                        <button onClick={() => { navigate(`/channels/${twitch_id}/reviews/${currentUsersReview._id}/edit`) }} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Edit Review</button>
+                        : <button onClick={() => { navigate(`/channels/${twitch_id}/reviews/create`) }} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Create Review</button>}
                     {/* Display reviews  */}
                     <h3 className="text-xl font-bold">Reviews</h3>
-                    <div className="w-1/2 border border-gray-800">
+                    <div className="w-3/4 border border-gray-200 rounded-md">
                         {reviews && <ReviewsList reviewsList={reviews} />}
                     </div>
                 </div>

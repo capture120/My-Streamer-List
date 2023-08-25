@@ -59,14 +59,14 @@ function PublicProfile({ target_user_id }) {
 
     if (publicProfile) {
         return (
-            <div>
-                <div>
+            <div className="flex justify-center border border-gray-200 rounded-md">
+                <div className="m-1 w-4/5">
                     <h1 className="text-2xl font-bold">{publicProfile.username}'s Profile</h1>
     
                     {/* Display Favorite Channel */}
                     <div>
                         <h3 className="text-xl font-semibold">Favorite Channel</h3>
-                        <div className="w-1/2 border border-gray-800">
+                        <div className="border border-gray-200 rounded-md">
                             {publicProfile.favoriteChannel ?
                                 <Link to={`/channels/${publicProfile.favoriteChannel}`} >
                                     <TwitchChannelDetails twitch_id={publicProfile.favoriteChannel} />
@@ -81,7 +81,7 @@ function PublicProfile({ target_user_id }) {
                     {/* Display reviews  */}
                     <div>
                         <h3 className="text-xl font-semibold">Reviews</h3>
-                        <div className="w-1/2 border border-gray-800">
+                        <div className="border border-gray-200 rounded-md">
                             {(reviews.length > 0) ? <ReviewsList reviewsList={reviews} />
                                 : <div className="text-center">This user has made no reviews</div>}
                         </div>

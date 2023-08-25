@@ -5,13 +5,6 @@ import { Link } from "react-router-dom";
 
 import * as twitchService from "../../services/twitch-service";
 
-/*
-border-2 border-gray-800
-for search border border-gray-300
-{JSON.stringify(channels, null, 2)}
-*/
-
-
 function Search() {
     const navigate = useNavigate();
 
@@ -38,7 +31,7 @@ function Search() {
     // onKeyDown={(e) => {e.key === "Enter" && search(query)}}
     return (
         <div className="">
-            <div className="max-w-4xl mx-auto border border-gray-500 rounded-lg">
+            <div className="max-w-4xl mx-auto border border-gray-200 rounded-lg mt-4">
                 <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
                     <div className="grid place-items-center h-full w-12 text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -62,11 +55,11 @@ function Search() {
 
 
             {/* Display channels in grid format */}
-            <div className="container mx-auto">
+            <div className="container mx-auto mt-4">
                 <div className="grid grid-cols-3 gap-4">
                     {channels.map((channel) => (
                         <Link to={`/channels/${channel.id}`}>
-                            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
                                 <img
                                     className="w-5/6 h-48 object-center ml-auto"
                                     src={channel.thumbnail_url}
