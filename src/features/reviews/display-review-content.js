@@ -11,7 +11,7 @@ const DisplayReviewContent = ({ review }) => {
     const handleDelete = async () => {
         const response = await dispatch(deleteReviewThunk(review._id));
         console.log(JSON.stringify(response));
-        navigate(`/channels/${review.twitch_id}`);
+        // navigate(`/channels/${review.twitch_id}`);
     }
 
     return (

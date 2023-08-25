@@ -35,7 +35,7 @@ function Search() {
             setChannels([]);
         }
     }, [search_name]);
-
+    // onKeyDown={(e) => {e.key === "Enter" && search(query)}}
     return (
         <div className="">
             <div className="max-w-4xl mx-auto border border-gray-500 rounded-lg">
@@ -47,7 +47,7 @@ function Search() {
                     </div>
 
                     <input class="peer h-full w-full outline-none text-sm text-gray-700 pr-2" type="text" placeholder="Search channels" value={query}
-                        onChange={(e) => { setQuery(e.target.value); }} onKeyDown={(e) => {e.key === "Enter" && search(query)}}/>
+                        onChange={(e) => { setQuery(e.target.value); }}/>
 
                     <button
                         onClick={() => {

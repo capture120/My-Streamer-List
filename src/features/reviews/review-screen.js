@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { findReviewByIdThunk } from './services/reviews-thunk';
 import * as twitchService from "../../services/twitch-service";
@@ -15,6 +15,8 @@ const ReviewScreen = () => {
     const [review, setReview] = useState(null);
     const [channel, setChannel] = useState(null);
     const { review_id } = useParams();
+
+    const { currentUser } = useSelector((state) => { return state.user });
 
     const findChannel = async (twitch_id) => {
         const channel = await twitchService.findUser(twitch_id);
@@ -46,7 +48,12 @@ const ReviewScreen = () => {
             <Link to={`/profile/${review.creator._id}`}>
                 <h3 className="text-md font-bold">Reviewed by: {review.creator.username}</h3>
             </Link>
-            <DisplayReviewContent review={review} />
+            {(currentUser && currentUser._id === review.creator._id) ?
+                <Link to={`/channels/${review.twitch_id}/reviews/${review._id}/edit`}><DisplayReviewContent review={review}/></Link> :
+                <Link to={`/channels/${review.twitch_id}/reviews/${review._id}`}>
+                    <DisplayReviewContent review={review}/>
+                </Link>}
+            {/* <DisplayReviewContent review={review} /> */}
         </div>
         : <></>
     )

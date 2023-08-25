@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { profileThunk } from "./services/users-thunks";
 
 function HiddenComponent({ children }) {
     const dispatch = useDispatch();
@@ -14,7 +13,6 @@ function HiddenComponent({ children }) {
         const load = async () => {
             // even though the auth context that wraps this component is called once, we still need to double check
             // in the case of a server failure, the user will be logged out but the state will not update again
-            // await dispatch(profileThunk());
 
             // if there's no one logged in, do not display content
             if (currentUser) {

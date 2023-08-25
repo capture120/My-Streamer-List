@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { profileThunk, updateCurrentUserThunk } from "../services/users-thunks";
+import { updateCurrentUserThunk } from "../services/users-thunks";
 
 import PublicProfile from "../public_profile";
 
