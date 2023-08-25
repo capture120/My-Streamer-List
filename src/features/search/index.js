@@ -47,32 +47,38 @@ function Search() {
                     </div>
 
                     <input class="peer h-full w-full outline-none text-sm text-gray-700 pr-2" type="text" placeholder="Search channels" value={query}
-                        onChange={(e) => { setQuery(e.target.value); }}/>
+                        onChange={(e) => { setQuery(e.target.value); }} />
 
                     <button
                         onClick={() => {
                             navigate(`/search/${query}`);
                         }}
-                        className="btn btn-primary float-end"
+                        className="absolute right-0 top-0 h-full w-20 text-white rounded-r-lg bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
                     >
                         Search
                     </button>
                 </div>
             </div>
 
-            <div className="lg:grid lg:grid-flow-col lg:grid-rows-3">
-                {/* Display array of channels */}
-                {channels.map((channel) => {
-                    return (
-                        <div className="flex flex-col items-center justify-center border border-gray-800 min-w-fit max-w-xl p-4">
-                            {/* Link channels to their respective URL */}
-                            <Link to={`/channels/${channel.id}`}>
-                                <h5 className="text-3xl font-bold mb-2">{channel.display_name}</h5>
-                                <img src={channel.thumbnail_url} />
-                            </Link>
-                        </div>
-                    );
-                })}
+
+            {/* Display channels in grid format */}
+            <div className="container mx-auto">
+                <div className="grid grid-cols-3 gap-4">
+                    {channels.map((channel) => (
+                        <Link to={`/channels/${channel.id}`}>
+                            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                                <img
+                                    className="w-5/6 h-48 object-center ml-auto"
+                                    src={channel.thumbnail_url}
+                                />
+                                <div className="p-4">
+                                    <h2 className="font-bold text-2xl mb-2 text-center">{channel.display_name}</h2>
+                                </div>
+                            </div>
+                        </Link>
+
+                    ))}
+                </div>
             </div>
         </div>
     );
