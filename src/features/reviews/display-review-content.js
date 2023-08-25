@@ -18,7 +18,7 @@ const DisplayReviewContent = ({ review }) => {
         <div>
             <div className="mt-4">
                 <div className="px-6 py-4 bg-gray-200">
-                    <p className="text-sm font-bold text-blue-500 hover:text-blue-700">{new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    <p className="text-sm font-bold text-blue-500 hover:text-blue-700">{new Date(review.date_created).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     <p className="text-lg">{review.review_content}</p>
                     <div className="flex items-center mt-2">
                         {review.isRecommended === true ? <div className="bg-blue-500 text-white font-bold rounded-full px-2 py-1 text-xs mr-2">{review.isRecommended} Recommended</div>
@@ -34,17 +34,5 @@ const DisplayReviewContent = ({ review }) => {
         </div>
     )
 }
-
-/*
-            <div className="card">
-                <div className="card-body">
-                    <div className="flex flex-row justify-between">
-                        <div className="flex flex-col">
-                            <h5 className="card-title">{channel.name}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-*/
 
 export default DisplayReviewContent;

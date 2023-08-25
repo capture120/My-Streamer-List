@@ -27,17 +27,22 @@ const AdminDashboard = () => {
 
     return (
         <div>
-            <h1>Admin Screen</h1>
+            <h1 class="text-2xl font-bold text-gray-900 text-center">Dashboard</h1>
             <div>
-                <h2>Users</h2>
-                {editingUsers && editingUsers.map((user) => {
-                    const deepCopy = { ...user };
-                    return (
-                        <UserSettings user={deepCopy} />
-                    );
-                })}
+                <div class="container flex flex-col items-center justify-center w-full mx-auto bg-white rounded-lg shadow dark:bg-gray-800">
+                    <ul class="flex flex-col divide-y divide">
+                        {editingUsers && editingUsers.map((user) => {
+                            const deepCopy = { ...user };
+                            return (
+                                <UserSettings user={deepCopy} />
+                            );
+                        })}
+
+                    </ul>
+                </div>
             </div>
         </div>
+
     );
 }
 
