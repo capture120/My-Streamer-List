@@ -16,14 +16,21 @@ const DisplayReviewContent = ({ review }) => {
 
     return (
         <div>
-            <p className="text-lg">{review.review_content}</p>
-            <p className="text-lg">{review.isRecommended ? "Recommended" : "Not-Recommended"}</p>
-            <p className="text-lg">{review.date_created}</p>
-            {currentUser && (currentUser._id === review.user_id || currentUser.isAdmin === true) &&
-                <button onClick={handleDelete} className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-                    Delete
-                </button>
-            }
+            <div className="mt-4">
+                <div className="px-6 py-4 bg-gray-200">
+                    <p className="text-sm font-bold text-blue-500 hover:text-blue-700">{new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    <p className="text-lg">{review.review_content}</p>
+                    <div className="flex items-center mt-2">
+                        {review.isRecommended === true ? <div className="bg-blue-500 text-white font-bold rounded-full px-2 py-1 text-xs mr-2">{review.isRecommended} Recommended</div>
+                            : <div className="bg-red-500 text-white font-bold rounded-full px-2 py-1 text-xs mr-auto">{review.isRecommended} Not Recommended</div>}
+                        {currentUser && (currentUser._id === review.user_id || currentUser.isAdmin === true) &&
+                            <button onClick={handleDelete} className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded ml-auto">
+                                Delete
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

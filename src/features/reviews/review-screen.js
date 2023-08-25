@@ -39,23 +39,26 @@ const ReviewScreen = () => {
 
     return (
         review ?
-        <div className="mt-4">
-            {/* Channel name */}
-            <Link to={`/channels/${review.twitch_id}`}>
-                <h3 className="text-md font-bold">Channel: {channel && channel.display_name}</h3>
-            </Link>
-            {/* Reviewer name */}
-            <Link to={`/profile/${review.creator._id}`}>
-                <h3 className="text-md font-bold">Reviewed by: {review.creator.username}</h3>
-            </Link>
-            {(currentUser && currentUser._id === review.creator._id) ?
-                <Link to={`/channels/${review.twitch_id}/reviews/${review._id}/edit`}><DisplayReviewContent review={review}/></Link> :
-                <Link to={`/channels/${review.twitch_id}/reviews/${review._id}`}>
-                    <DisplayReviewContent review={review}/>
-                </Link>}
-            {/* <DisplayReviewContent review={review} /> */}
-        </div>
-        : <></>
+            <div className="mt-4 bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="px-6 py-4">
+                    {/* Channel name */}
+                    <Link to={`/channels/${review.twitch_id}`}>
+                        <h3 className="text-md font-bold text-blue-500 hover:text-blue-700">Channel: {channel && channel.display_name}</h3>
+                    </Link>
+                    {/* Reviewer name */}
+                    <Link to={`/profile/${review.creator._id}`}>
+                        <h3 className="text-md font-bold text-blue-500 hover:text-blue-700">Reviewed by: {review.creator.username}</h3>
+                    </Link>
+                    {/* Review content */}
+                    {(currentUser && currentUser._id === review.creator._id) ?
+                        <Link to={`/channels/${review.twitch_id}/reviews/${review._id}/edit`}><DisplayReviewContent review={review} /></Link> :
+                        <Link to={`/channels/${review.twitch_id}/reviews/${review._id}`}>
+                            <DisplayReviewContent review={review} />
+                        </Link>}
+                </div>
+            </div>
+
+            : <></>
     )
 }
 
